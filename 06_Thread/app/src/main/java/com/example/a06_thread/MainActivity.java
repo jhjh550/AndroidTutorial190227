@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void handleMessage(Message msg) {
             if(msg.what == MY_COUNT){
                 btnStart.setText("count "+msg.arg1);
+                progressBar.setProgress(msg.arg1);
             }
         }
     };
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 msg.what = MY_COUNT;
                 msg.arg1 = i;
                 mHandler.sendMessage(msg);
+
                 try {
                     sleep(100);
                 } catch (InterruptedException e) {
@@ -37,10 +40,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     Button btnStart;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        progressBar = findViewById(R.id.progressBar);
         btnStart = findViewById(R.id.btnStart);
         btnStart.setOnClickListener(this);
     }
