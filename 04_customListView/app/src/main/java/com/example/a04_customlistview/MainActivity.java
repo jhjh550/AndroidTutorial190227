@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setMyData();
         ListView listView = findViewById(R.id.listView);
+        MyAdapter adapter = new MyAdapter();
+        listView.setAdapter(adapter);
     }
 
     class MyAdapter extends BaseAdapter{
