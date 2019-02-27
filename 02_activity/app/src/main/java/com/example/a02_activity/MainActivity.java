@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final int MY_REQ_CODE = 100;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,8 +20,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, MyActivity.class);
                 intent.putExtra("myValue", "hello world");
                 intent.putExtra("intValue", 100);
-                startActivity(intent);
+                startActivityForResult(intent, MY_REQ_CODE);
             }
         });
     }
+
+
 }
