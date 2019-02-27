@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff0">
+    <RelativeLayout
+        android:layout_centerInParent="true"
+        android:background="#0f0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/textView"
+            android:textSize="50dp"
+            android:text="ID : "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_toRightOf="@id/textView"
+            android:hint="여기에 입력해 주세요ㅣ"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/textViewPW"
+            android:layout_below="@id/textView"
+            android:text="PW : "
+            android:textSize="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:layout_alignBottom="@id/textViewPW"
+            android:layout_toRightOf="@id/textViewPW"
+            android:hint="패스워드 입력"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_below="@id/textViewPW"
+            android:layout_centerHorizontal="true"
+            android:textSize="30dp"
+            android:text="login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+</RelativeLayout>
