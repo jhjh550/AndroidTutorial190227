@@ -2,10 +2,13 @@ package com.example.a04_customlistview;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -59,8 +62,19 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if(convertView == null){
-
+                LayoutInflater inf = LayoutInflater.from(MainActivity.this);
+                convertView = inf.inflate(R.layout.item_view, parent, false);
             }
+            MyData myData = list.get(position);
+
+            ImageView imageView = convertView.findViewById(R.id.itemIcon);
+            TextView textViewTitle = convertView.findViewById(R.id.textViewTitle);
+            TextView textViewDesc = convertView.findViewById(R.id.textViewDesc);
+
+            textViewTitle.setText(myData.title);
+            textViewDesc.setText(myData.desc);
+            imageView.setImageResource(myData.imgIcon);
+
             return convertView;
         }
     }
