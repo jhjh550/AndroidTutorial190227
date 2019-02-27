@@ -23,10 +23,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         MyTask task = new MyTask();
-        task.execute();
+        task.execute(30);
     }
 
-    class MyTask extends AsyncTask<Void, Integer, Void> {
+    class MyTask extends AsyncTask<Integer, Integer, String> {
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            btnStart.setText(s);
+        }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
@@ -34,8 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            for(int i=0; i<100; i++){
+        protected String doInBackground(Integer... values) {
+            for(int i=values[0]; i<100; i++){
                 Log.d("MyTask", "count : "+i);
                 publishProgress(i);
                 try {
@@ -44,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
             }
-            return null;
+            return "count done!!";
         }
     }
 }
