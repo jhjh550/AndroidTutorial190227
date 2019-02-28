@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                                 case "wfKor":
                                     type = DataType.wfKorType;
                                     break;
-
                             }
                             break;
                         case XmlPullParser.TEXT:
@@ -93,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                                     weatherData.setWfKor(xpp.getText());
                                     break;
                             }
+                            type = DataType.none;
                             break;
                     }
                     eventType = xpp.next();
@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            Log.d("xml", "count : "+weatherList.size());
             return res;
         }
     }
