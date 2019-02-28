@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#ff0"
+    android:foreground="?android:attr/selectableItemBackground">
     <TextView
         android:textSize="20dp"
         android:padding="16dp"
