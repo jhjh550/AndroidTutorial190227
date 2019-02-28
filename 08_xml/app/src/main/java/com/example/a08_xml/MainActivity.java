@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +25,8 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    ListView listView;
+//    ListView listView;
+    RecyclerView recyclerView;
     ArrayList<WeatherData> weatherList = new ArrayList<>();
 
     enum DataType { none, hourType, dayType, tempType, wfKorType }
@@ -33,13 +36,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listView = findViewById(R.id.listView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        recyclerView = findViewById(R.id.recyclerView);
 
-            }
-        });
         new MyParserTask().execute("https://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=1153051000");
     }
     // http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=1153051000
@@ -57,9 +55,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            WeatherListViewAdapter adapter = new WeatherListViewAdapter(
-                    weatherList, MainActivity.this );
-            listView.setAdapter(adapter);
+//            WeatherListViewAdapter adapter = new WeatherListViewAdapter(
+//                    weatherList, MainActivity.this );
+//            listView.setAdapter(adapter);
+            WeatherRecyclerViewAdapter adapter = new WeatherRecyclerViewAdapter(
+                    MainActivity.this, weatherList);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(
+                    new LinearLayoutManager(MainActivity.this));
             dlg.dismiss();
         }
 
