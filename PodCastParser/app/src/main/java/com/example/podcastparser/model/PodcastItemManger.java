@@ -87,7 +87,7 @@ public class PodcastItemManger {
                                     break;
                                 case summaryType:
                                     if(item != null) {
-                                        item.setSummery(xpp.getText());
+                                        item.setSummary(xpp.getText());
                                     }
                                     break;
                                 case guidType:

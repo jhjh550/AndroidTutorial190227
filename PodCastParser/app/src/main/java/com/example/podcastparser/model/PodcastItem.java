@@ -2,7 +2,7 @@ package com.example.podcastparser.model;
 
 public class PodcastItem {
     private String title;
-    private String summery;
+    private String summary;
     private String guid;
     private String pubDate;
     private String duration;
@@ -15,12 +15,12 @@ public class PodcastItem {
         this.title = title;
     }
 
-    public String getSummery() {
-        return summery;
+    public String getSummary() {
+        return summary;
     }
 
-    public void setSummery(String summery) {
-        this.summery = summery;
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     public String getGuid() {
