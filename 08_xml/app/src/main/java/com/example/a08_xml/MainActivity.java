@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Xml;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -129,9 +130,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if(convertView == null){
-
+                LayoutInflater inf = LayoutInflater.from(MainActivity.this);
+                convertView = inf.inflate(R.layout.item_weather, parent, false);
             }
-            return null;
+            WeatherData data = weatherList.get(position);
+            TextView textViewWfKor = convertView.findViewById(R.id.textViewWfKor);
+            TextView textViewTemp = convertView.findViewById(R.id.textViewTemp);
+            TextView textViewDate = convertView.findViewById(R.id.textViewDate);
+            textViewWfKor.setText(data.getWfKor());
+            textViewTemp.setText(data.getTemp()+" 'c");
+            textViewDate.setText(data.getDay()+"일 "+data.getHour()+"시");
+            return convertView;
         }
     }
 }
