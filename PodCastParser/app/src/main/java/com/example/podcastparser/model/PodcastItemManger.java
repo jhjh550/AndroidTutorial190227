@@ -21,6 +21,10 @@ public class PodcastItemManger {
     ArrayList<PodcastItem> podcastItemList = new ArrayList<>();
     PodcastParserTask task;
 
+    public ArrayList<PodcastItem> getPodcastItemList() {
+        return podcastItemList;
+    }
+
     public void getPodcastData(){
         task = new PodcastParserTask();
         task.execute("http://pod.ssenhosting.com/rss/rrojia2/rrojia2.xml");
