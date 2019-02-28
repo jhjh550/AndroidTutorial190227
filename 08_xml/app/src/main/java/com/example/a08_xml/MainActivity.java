@@ -41,12 +41,21 @@ public class MainActivity extends AppCompatActivity {
                 URL url = new URL(strings[0]);
                 xpp.setInput(url.openStream(), "utf-8");
                 int eventType = xpp.getEventType();
+                boolean bRead = false;
                 while(eventType != XmlPullParser.END_DOCUMENT){
                     switch (eventType){
                         case XmlPullParser.START_TAG:
-
+                            String tag = xpp.getName();
+                            if(tag.equals("hour") || tag.equals("day")
+                                    || tag.equals("temp") || tag.equals("wfKor")){
+                                bRead = true;
+                            }
                             break;
                         case XmlPullParser.TEXT:
+                            if(bRead){
+                                res += xpp.getText() + " ";
+                                bRead = false;
+                            }
                             break;
                     }
                     eventType = xpp.next();
