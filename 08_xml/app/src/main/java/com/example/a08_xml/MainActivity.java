@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Xml;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,10 @@ import android.widget.TextView;
 import com.example.a08_xml.model.WeatherData;
 
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     ListView listView;
@@ -60,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            WeatherAdapter adapter = new WeatherAdapter();
+            WeatherListViewAdapter adapter = new WeatherListViewAdapter(
+                    weatherList, MainActivity.this );
             listView.setAdapter(adapter);
             dlg.dismiss();
         }
@@ -130,47 +128,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class WeatherAdapter extends BaseAdapter{
 
-        @Override
-        public int getCount() {
-            return weatherList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return weatherList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if(convertView == null){
-                LayoutInflater inf = LayoutInflater.from(MainActivity.this);
-                convertView = inf.inflate(R.layout.item_weather, parent, false);
-            }
-            WeatherData data = weatherList.get(position);
-            TextView textViewWfKor = convertView.findViewById(R.id.textViewWfKor);
-            TextView textViewTemp = convertView.findViewById(R.id.textViewTemp);
-            TextView textViewDate = convertView.findViewById(R.id.textViewDate);
-            ImageView imageView = convertView.findViewById(R.id.imageViewIcon);
-
-            textViewWfKor.setText(data.getWfKor());
-            textViewTemp.setText(data.getTemp()+" 'c");
-
-            textViewDate.setText(data.getDay()+"일 "+data.getHour()+"시");
-            int res = R.mipmap.ic_launcher;
-            if(data.getWfKor().contains("구름")){
-                res = R.drawable.ic_cloud;
-            }else if(data.getWfKor().contains("맑음")){
-                res = R.drawable.ic_wb_sunny;
-            }
-            imageView.setImageResource(res);
-            return convertView;
-        }
-    }
 }
