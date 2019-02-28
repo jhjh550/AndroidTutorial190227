@@ -13,9 +13,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        textView = findViewById(R.id.textView);
 
-        PodcastItemManger manager = new PodcastItemManger();
+        final PodcastItemManger manager = new PodcastItemManger();
         manager.getPodcastData();
+        manager.setOnPodcastFinishListener(new PodcastItemManger.PodcastFinishListener() {
+            @Override
+            public void onFinish() {
+                String temp = manager.getPocastTags();
+                textView.setText(temp);
+            }
+        });
 
     }
 }

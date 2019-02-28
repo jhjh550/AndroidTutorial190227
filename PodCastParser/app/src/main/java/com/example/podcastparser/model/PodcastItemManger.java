@@ -12,6 +12,14 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class PodcastItemManger {
+    public interface PodcastFinishListener{
+        void onFinish();
+    }
+    PodcastFinishListener mPodcastFinishListener;
+    public void setOnPodcastFinishListener(PodcastFinishListener listener){
+        mPodcastFinishListener = listener;
+    }
+
     ArrayList<PodcastItem> podcastItemList;
     PodcastParserTask task;
 
@@ -19,10 +27,23 @@ public class PodcastItemManger {
         task = new PodcastParserTask();
         task.execute("http://pod.ssenhosting.com/rss/rrojia2/rrojia2.xml");
     }
-    class PodcastParserTask extends AsyncTask<String, Void, Void>{
+    String tempStr;
+    public String getPocastTags(){
+        return tempStr;
+    }
+
+    class PodcastParserTask extends AsyncTask<String, Void, String>{
 
         @Override
-        protected Void doInBackground(String... strings) {
+        protected void onPostExecute(String s) {
+            tempStr = s;
+            if(mPodcastFinishListener != null){
+                mPodcastFinishListener.onFinish();
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
             String res = "";
             try {
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -44,7 +65,7 @@ public class PodcastItemManger {
                 e.printStackTrace();
             }
             Log.d("xml", res);
-            return null;
+            return res;
         }
     }
 }
