@@ -57,5 +57,12 @@ public class MainActivity extends AppCompatActivity {
         webView.loadUrl("https://daum.net");
     }
 
-
+    @Override
+    public void onBackPressed() {
+        if(webView.canGoBack()){
+            webView.goBack();
+        }else{
+            super.onBackPressed();
+        }
+    }
 }
