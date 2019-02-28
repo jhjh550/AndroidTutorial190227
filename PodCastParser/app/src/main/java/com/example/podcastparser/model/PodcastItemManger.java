@@ -2,10 +2,8 @@ package com.example.podcastparser.model;
 
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
 import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.net.URL;
@@ -20,23 +18,21 @@ public class PodcastItemManger {
         mPodcastFinishListener = listener;
     }
 
-    ArrayList<PodcastItem> podcastItemList;
+    ArrayList<PodcastItem> podcastItemList = new ArrayList<>();
     PodcastParserTask task;
 
     public void getPodcastData(){
         task = new PodcastParserTask();
         task.execute("http://pod.ssenhosting.com/rss/rrojia2/rrojia2.xml");
     }
-    String tempStr;
-    public String getPocastTags(){
-        return tempStr;
-    }
+
+    enum DataType {none, titleType, summaryType, guidType, pubDateType, durationType}
+    DataType dataType = DataType.none;
 
     class PodcastParserTask extends AsyncTask<String, Void, String>{
 
         @Override
         protected void onPostExecute(String s) {
-            tempStr = s;
             if(mPodcastFinishListener != null){
                 mPodcastFinishListener.onFinish();
             }
@@ -44,19 +40,64 @@ public class PodcastItemManger {
 
         @Override
         protected String doInBackground(String... strings) {
-            String res = "";
+
             try {
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 XmlPullParser xpp = factory.newPullParser();
                 xpp.setInput(new URL(strings[0]).openStream(), "utf-8");
                 int eventType = xpp.getEventType();
+                PodcastItem item = null;
                 while(eventType != XmlPullParser.END_DOCUMENT){
                     switch (eventType){
                         case XmlPullParser.START_TAG:
-                            res += xpp.getName()+" ";
+                            String tag = xpp.getName();
+                            switch (tag){
+                                case "item":
+                                    item = new PodcastItem();
+                                    podcastItemList.add(item);
+                                    break;
+                                case "title":
+                                    dataType = DataType.titleType;
+                                    break;
+                                case "itunes:summary":
+                                    dataType = DataType.summaryType;
+                                    break;
+                                case "guid":
+                                    dataType = DataType.guidType;
+                                    break;
+                                case "pubDate":
+                                    dataType = DataType.pubDateType;
+                                    break;
+                                case "itunes:duration":
+                                    dataType = DataType.durationType;
+                                    break;
+                            }
+
                             break;
                         case XmlPullParser.TEXT:
-                            res += xpp.getText()+" ";
+                            switch (dataType){
+                                case titleType:
+                                    if(item != null) {
+                                        item.setTitle(xpp.getText());
+                                    }
+                                    break;
+                                case summaryType:
+                                    if(item != null) {
+                                        item.setSummery(xpp.getText());
+                                    }
+                                    break;
+                                case guidType:
+                                    item.setGuid(xpp.getText());
+                                    break;
+                                case pubDateType:
+                                    item.setPubDate(xpp.getText());
+                                    break;
+                                case durationType:
+                                    item.setDuration(xpp.getText());
+                                    break;
+                            }
+                            dataType = DataType.none;
+
                             break;
                     }
                     eventType = xpp.next();
@@ -64,8 +105,9 @@ public class PodcastItemManger {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Log.d("xml", res);
-            return res;
+
+            Log.d("podcast", podcastItemList.size()+"");
+            return null;
         }
     }
 }

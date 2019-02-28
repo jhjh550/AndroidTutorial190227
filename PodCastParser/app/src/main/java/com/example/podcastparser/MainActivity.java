@@ -20,8 +20,7 @@ public class MainActivity extends AppCompatActivity {
         manager.setOnPodcastFinishListener(new PodcastItemManger.PodcastFinishListener() {
             @Override
             public void onFinish() {
-                String temp = manager.getPocastTags();
-                textView.setText(temp);
+
             }
         });
 
