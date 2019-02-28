@@ -3,17 +3,26 @@ package com.example.a08_xml;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Xml;
 import android.widget.TextView;
+
+import com.example.a08_xml.model.WeatherData;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     TextView textView;
+    ArrayList<WeatherData> weatherList = new ArrayList<>();
+
+    enum DataType { none, hourType, dayType, tempType, wfKorType }
+    DataType type = DataType.none;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,20 +50,26 @@ public class MainActivity extends AppCompatActivity {
                 URL url = new URL(strings[0]);
                 xpp.setInput(url.openStream(), "utf-8");
                 int eventType = xpp.getEventType();
-                boolean bRead = false;
+                WeatherData weatherData;
                 while(eventType != XmlPullParser.END_DOCUMENT){
                     switch (eventType){
                         case XmlPullParser.START_TAG:
                             String tag = xpp.getName();
-                            if(tag.equals("hour") || tag.equals("day")
-                                    || tag.equals("temp") || tag.equals("wfKor")){
-                                bRead = true;
+                            switch (tag){
+                                case "data":
+                                    weatherData = new WeatherData();
+                                    weatherList.add(weatherData);
+                                    break;
+                                case "hour":
+                                    type = DataType.hourType;
+                                    break;
+
                             }
                             break;
                         case XmlPullParser.TEXT:
-                            if(bRead){
-                                res += xpp.getText() + " ";
-                                bRead = false;
+                            switch (type){
+                                case hourType:
+
                             }
                             break;
                     }
