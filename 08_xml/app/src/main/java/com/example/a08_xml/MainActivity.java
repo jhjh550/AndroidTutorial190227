@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-
+            WeatherAdapter adapter = new WeatherAdapter();
+            listView.setAdapter(adapter);
         }
 
         @Override
