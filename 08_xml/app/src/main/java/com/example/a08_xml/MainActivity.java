@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 URL url = new URL(strings[0]);
                 xpp.setInput(url.openStream(), "utf-8");
                 int eventType = xpp.getEventType();
-                WeatherData weatherData;
+                WeatherData weatherData = null;
                 while(eventType != XmlPullParser.END_DOCUMENT){
                     switch (eventType){
                         case XmlPullParser.START_TAG:
@@ -69,7 +69,9 @@ public class MainActivity extends AppCompatActivity {
                         case XmlPullParser.TEXT:
                             switch (type){
                                 case hourType:
-
+                                    int hour = Integer.parseInt(xpp.getText());
+                                    weatherData.setHour(hour);
+                                    break;
                             }
                             break;
                     }
