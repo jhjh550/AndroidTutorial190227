@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.textView);
-        new MyParserTask().execute("http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=1153051000");
+        new MyParserTask().execute("https://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=1153051000");
     }
     // http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=1153051000
     // 0일 12시 9.0도 구름 조금
