@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,11 +29,22 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textView;
+        String str;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             textView = itemView.findViewById(R.id.textView);
+        }
+        public void bindString(String str){
+            this.str = str;
+            textView.setText(str);
+        }
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(MainActivity.this, str, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -48,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-            myViewHolder.textView.setText(list[i]);
+            myViewHolder.bindString(list[i]);
         }
 
         @Override
