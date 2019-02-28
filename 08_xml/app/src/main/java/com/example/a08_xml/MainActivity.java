@@ -3,7 +3,14 @@ package com.example.a08_xml;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Xml;
 import android.widget.TextView;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
     TextView textView;
@@ -26,7 +33,28 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            return null;
+            String res = "";
+
+            try {
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                XmlPullParser xpp = factory.newPullParser();
+                URL url = new URL(strings[0]);
+                xpp.setInput(url.openStream(), "utf-8");
+                int eventType = xpp.getEventType();
+                while(eventType != XmlPullParser.END_DOCUMENT){
+                    switch (eventType){
+                        case XmlPullParser.START_TAG:
+
+                            break;
+                        case XmlPullParser.TEXT:
+                            break;
+                    }
+                    eventType = xpp.next();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return res;
         }
     }
 }
