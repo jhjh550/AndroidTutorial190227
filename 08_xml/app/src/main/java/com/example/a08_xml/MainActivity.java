@@ -63,6 +63,15 @@ public class MainActivity extends AppCompatActivity {
                                 case "hour":
                                     type = DataType.hourType;
                                     break;
+                                case "day":
+                                    type = DataType.dayType;
+                                    break;
+                                case "temp":
+                                    type = DataType.tempType;
+                                    break;
+                                case "wfKor":
+                                    type = DataType.wfKorType;
+                                    break;
 
                             }
                             break;
@@ -71,6 +80,17 @@ public class MainActivity extends AppCompatActivity {
                                 case hourType:
                                     int hour = Integer.parseInt(xpp.getText());
                                     weatherData.setHour(hour);
+                                    break;
+                                case dayType:
+                                    int day = Integer.parseInt(xpp.getText());
+                                    weatherData.setDay(day);
+                                    break;
+                                case tempType:
+                                    float temp = Float.parseFloat(xpp.getText());
+                                    weatherData.setTemp(temp);
+                                    break;
+                                case wfKorType:
+                                    weatherData.setWfKor(xpp.getText());
                                     break;
                             }
                             break;
