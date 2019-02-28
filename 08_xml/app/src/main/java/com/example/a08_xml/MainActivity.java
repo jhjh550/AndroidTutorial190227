@@ -5,6 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Xml;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.a08_xml.model.WeatherData;
@@ -17,7 +21,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    TextView textView;
+    ListView listView;
     ArrayList<WeatherData> weatherList = new ArrayList<>();
 
     enum DataType { none, hourType, dayType, tempType, wfKorType }
@@ -27,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textView = findViewById(R.id.textView);
+        listView = findViewById(R.id.listView);
         new MyParserTask().execute("https://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=1153051000");
     }
     // http://www.kma.go.kr/wid/queryDFSRSS.jsp?zone=1153051000
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            textView.setText(s);
+
         }
 
         @Override
@@ -102,6 +106,29 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.d("xml", "count : "+weatherList.size());
             return res;
+        }
+    }
+
+    class WeatherAdapter extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            return weatherList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return weatherList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return null;
         }
     }
 }
