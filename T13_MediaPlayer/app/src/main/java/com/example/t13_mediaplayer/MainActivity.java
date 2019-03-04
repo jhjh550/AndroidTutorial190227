@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SeekBar;
 
 import java.io.IOException;
 
@@ -21,10 +22,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int PERMISSION_REQ_CODE = 100;
 
     MediaPlayer mp = null;
+    SeekBar seekBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        seekBar = findViewById(R.id.seekBar);
 
         setupPermission();
 
@@ -83,6 +86,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mp.setDataSource("http://www.hochmuth.com/mp3/Haydn_Cello_Concerto_D-1.mp3");
                 mp.prepare();
                 mp.start();
+                seekBar.setMax(mp.getDuration());
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (mp != null){
+                            seekBar.setProgress(mp.getCurrentPosition());
+                            try {
+                                Thread.sleep(100);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }).start();
             } catch (IOException e) {
                 e.printStackTrace();
             }
