@@ -2,6 +2,7 @@ package com.example.t12_sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 public class TestDBHandler {
@@ -24,5 +25,30 @@ public class TestDBHandler {
         SQLiteDatabase db = helper.getWritableDatabase();
         db.delete("student", "name = ?",
                 new String[]{name});
+    }
+
+    public void update(String name, int newAge){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("age", newAge);
+        db.update("student", values, "name = ?",
+                new String[]{name});
+    }
+
+    public String selectAll(){
+        String res = "";
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        Cursor c = db.query("student", null, null,
+                null, null, null, null);
+        while(c.moveToNext()){
+            String name = c.getString( c.getColumnIndex("name") );
+            int age = c.getInt( c.getColumnIndex("age") );
+            String address = c.getString( c.getColumnIndex("address") );
+
+            res += "name : "+name+" age : "+age+" address : "+address+"\n";
+        }
+
+        return res;
     }
 }
