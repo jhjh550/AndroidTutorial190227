@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -28,6 +29,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         seekBar = findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(fromUser){
+                    if(mp != null){
+                        mp.seekTo(progress);
+                    }
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         setupPermission();
 
@@ -78,12 +99,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private String getPath(int id){
+        if(id == R.id.btnPlay){
+            return "http://www.hochmuth.com/mp3/Haydn_Cello_Concerto_D-1.mp3";
+        }else{
+            return Environment.getExternalStorageDirectory()+"/Kalimba.mp3";
+        }
+    }
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.btnPlay){
+        if(v.getId() == R.id.btnPlay || v.getId() == R.id.btnPlayFile){
             mp = new MediaPlayer();
             try {
-                mp.setDataSource("http://www.hochmuth.com/mp3/Haydn_Cello_Concerto_D-1.mp3");
+                mp.setDataSource( getPath( v.getId() ));
                 mp.prepare();
                 mp.start();
                 seekBar.setMax(mp.getDuration());
