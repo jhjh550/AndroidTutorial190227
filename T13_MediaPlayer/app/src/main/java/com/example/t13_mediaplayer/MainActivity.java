@@ -3,6 +3,7 @@ package com.example.t13_mediaplayer;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -10,18 +11,28 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.IOException;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final int PERMISSION_REQ_CODE = 100;
 
+    MediaPlayer mp = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         setupPermission();
+
+        findViewById(R.id.btnPlay).setOnClickListener(this);
+        findViewById(R.id.btnStop).setOnClickListener(this);
     }
+
+
 
     private void setupPermission(){
         int permission = ContextCompat.checkSelfPermission(this,
@@ -43,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 });
                 AlertDialog dlg = builder.create();
                 dlg.show();
+            }else{
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        PERMISSION_REQ_CODE);
             }
 
         }
@@ -56,6 +71,27 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("Permission", "granted");
             }else{
                 Log.i("Permission", "not granted");
+            }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.btnPlay){
+            mp = new MediaPlayer();
+            try {
+                mp.setDataSource("http://www.hochmuth.com/mp3/Haydn_Cello_Concerto_D-1.mp3");
+                mp.prepare();
+                mp.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }else if(v.getId() == R.id.btnStop){
+            if(mp != null){
+                mp.stop();
+                mp.release();
+                mp = null;
             }
         }
     }
