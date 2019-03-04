@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         TableLayout tableLayout = findViewById(R.id.tableLayout);
 
         int number = 1;
-        for(int i=2; i<tableLayout.getChildCount(); i++){
+        for(int i=2; i<tableLayout.getChildCount() - 1; i++){
             TableRow row = (TableRow) tableLayout.getChildAt(i);
-            for(int k=0; k<row.getChildCount() - 1; k++){
+            for(int k=0; k<row.getChildCount(); k++){
                 Button button = (Button) row.getChildAt(k);
                 button.setText(""+number);
                 button.setOnClickListener(numberListener);
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Button enterButton = (Button) bottomRow.getChildAt(2);
+        enterButton.setText("enter");
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
