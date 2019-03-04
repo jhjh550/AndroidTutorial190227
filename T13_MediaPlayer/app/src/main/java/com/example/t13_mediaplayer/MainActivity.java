@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.btnPlay).setOnClickListener(this);
         findViewById(R.id.btnStop).setOnClickListener(this);
+        findViewById(R.id.btnPlayFile).setOnClickListener(this);
     }
 
 
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             seekBar.setProgress(mp.getCurrentPosition());
                             try {
                                 Thread.sleep(100);
-                            } catch (InterruptedException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
