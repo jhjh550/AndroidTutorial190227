@@ -76,17 +76,29 @@ public class MainActivity extends AppCompatActivity {
             return activities.size();
         }
 
-        class ActivityHolder extends RecyclerView.ViewHolder{
+        class ActivityHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             ResolveInfo resolveInfo;
             TextView textView;
 
             public ActivityHolder(@NonNull View itemView) {
                 super(itemView);
                 textView = (TextView) itemView;
+                itemView.setOnClickListener(this);
             }
             public void bindActivity(ResolveInfo info){
                 resolveInfo = info;
                 textView.setText(info.loadLabel(getPackageManager()).toString());
+            }
+
+            @Override
+            public void onClick(View v) {
+                String packageName = resolveInfo.activityInfo.applicationInfo.packageName;
+                String activityName = resolveInfo.activityInfo.name;
+                Intent intent = new Intent(Intent.ACTION_MAIN)
+                                    .setClassName(packageName, activityName)
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                startActivity(intent);
             }
         }
     }
