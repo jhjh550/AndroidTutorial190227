@@ -10,6 +10,15 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class PodcastItemManger {
+    private static PodcastItemManger manger;
+    public static PodcastItemManger getInstance(){
+        if(manger == null){
+            manger = new PodcastItemManger();
+            manger.getPodcastData();
+        }
+        return manger;
+    }
+
     public interface PodcastFinishListener{
         void onFinish();
     }

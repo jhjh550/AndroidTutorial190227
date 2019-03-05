@@ -1,6 +1,8 @@
 package com.example.podcastparser.model;
 
-public class PodcastItem {
+import java.io.Serializable;
+
+public class PodcastItem implements Serializable {
     private String title;
     private String summary;
     private String guid;

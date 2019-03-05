@@ -20,8 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mRecyclerView = findViewById(R.id.recyclerView);
-        manager = new PodcastItemManger();
-        manager.getPodcastData();
+        manager = PodcastItemManger.getInstance();
         manager.setOnPodcastFinishListener(new PodcastItemManger.PodcastFinishListener() {
             @Override
             public void onFinish() {
